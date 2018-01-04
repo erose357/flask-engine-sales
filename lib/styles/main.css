@@ -1,1 +1,22 @@
+* {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+.wrapper {
+  display: grid;
+  grid-template-columns: 40% 40%;
+  grid-gap: 10px;
+}
+
+.wrapper-index {
+  display: grid;
+  grid-template-columns: 80%;
+}
+
+.box {
+  border-radius: 5px;
+  padding: 20px;
+}
