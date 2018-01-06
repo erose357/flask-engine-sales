@@ -10373,7 +10373,7 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, "* {\n  font-family: sans-serif;\n  margin: 0;\n  padding: 10px;\n  box-sizing: border-box;\n}\n\n.wrapper {\n  display: grid;\n  grid-template-columns: 30% 30% 30%;\n  grid-gap: 25px;\n}\n\n.box {\n  border-radius: 5px;\n  padding: 20px;\n}\n\n.a {\n  grid-column: 1;\n  grid-row: 1 / 3;\n}\n\n.b {\n  grid-column: 2 / 4;\n  grid-row: 1;\n}\n\n.c {\n  grid-column: 2;\n  grid-row: 2;\n}\n\n.d {\n  grid-column: 3;\n  grid-row: 2;\n}\n\ndiv {\n  border: 1px solid black;\n}\n\ndiv.box.a.all {\n  overflow: scroll;\n  height: 600px;\n}\n\ndiv.box.b {\n  height: 200px;\n}\n\ndiv.box.c {\n  overflow: scroll;\n  height: 375px;\n}\n\ndiv.box.d {\n  overflow: scroll;\n}\n", ""]);
+exports.push([module.i, "* {\n  font-family: sans-serif;\n  margin: 0;\n  padding: 10px;\n  box-sizing: border-box;\n}\n\n.wrapper {\n  display: grid;\n  grid-template-columns: 30% 30% 30%;\n  grid-gap: 25px;\n}\n\n.box {\n  border-radius: 5px;\n  padding: 20px;\n}\n\n.a {\n  grid-column: 1;\n  grid-row: 1 / 3;\n}\n\n.b {\n  grid-column: 2 / 4;\n  grid-row: 1;\n}\n\n.c {\n  grid-column: 2;\n  grid-row: 2;\n}\n\n.d {\n  grid-column: 3;\n  grid-row: 2;\n}\n\ndiv {\n  border: 1px solid black;\n}\n\ndiv.box.a.all {\n  overflow: scroll;\n  height: 600px;\n}\n\ndiv.box.b {\n  height: 200px;\n}\n\ndiv.box.c {\n  overflow: scroll;\n  height: 375px;\n}\n\ndiv.box.d {\n  overflow: scroll;\n  height: 375px;\n}\n", ""]);
 
 // exports
 
@@ -10942,6 +10942,7 @@ var $ = __webpack_require__(0);
 $(document).ready(function () {
   _merchantRequests.merchantRequests.getAllMerchants();
   _merchantRequests.merchantRequests.getMerchantInvoices(5);
+  _merchantRequests.merchantRequests.getMerchantItems(10);
 });
 
 /***/ }),
@@ -10983,6 +10984,15 @@ var MerchantRequests = function () {
     value: function getMerchantInvoices(merchant_id) {
       return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/invoices').then(function (data) {
         _merchantResponses.merchantResponses.appendMerchantInvoices(data);
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }, {
+    key: 'getMerchantItems',
+    value: function getMerchantItems(merchant_id) {
+      return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/items').then(function (data) {
+        _merchantResponses.merchantResponses.appendMerchantItems(data);
       }).catch(function (error) {
         console.error(error);
       });
@@ -11032,6 +11042,14 @@ var MerchantResponses = function () {
         $('tr.rel1-header').after('<tr>\n            <td>' + invoice.id + '</td>\n            <td>' + invoice.status + '</td>\n            <td>' + invoice.merchant_id + '</td>\n            <td>' + invoice.customer_id + '</td>\n          </tr>');
       });
       $('.rel1-title').text('Merchant Invoices');
+    }
+  }, {
+    key: 'appendMerchantItems',
+    value: function appendMerchantItems(data) {
+      data.items.map(function (item) {
+        $('.rel2-header').after('<tr>\n            <td>' + item.id + '</td>\n            <td>' + item.name + '</td>\n            <td>' + item.unit_price + '</td>\n            <td>' + item.description + '</td>\n          </tr>');
+      });
+      $('.rel2-title').text('Merchant items');
     }
   }]);
 

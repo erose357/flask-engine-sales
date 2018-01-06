@@ -56,4 +56,5 @@ div.box.c {
 
 div.box.d {
   overflow: scroll;
+  height: 375px;
 }
