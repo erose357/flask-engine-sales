@@ -11023,6 +11023,7 @@ var MerchantResponses = function () {
       reorder.map(function (merchant) {
         $('.merchant-header').after('<tr>\n            <td>' + merchant.id + '</td>\n            <td>' + merchant.name + '</td>\n          </tr>');
       });
+      $('.all-title').text('All Merchants');
     }
   }, {
     key: 'appendMerchantInvoices',
@@ -11030,6 +11031,7 @@ var MerchantResponses = function () {
       data.invoices.map(function (invoice) {
         $('tr.rel1-header').after('<tr>\n            <td>' + invoice.id + '</td>\n            <td>' + invoice.status + '</td>\n            <td>' + invoice.merchant_id + '</td>\n            <td>' + invoice.customer_id + '</td>\n          </tr>');
       });
+      $('.rel1-title').text('Merchant Invoices');
     }
   }]);
 
