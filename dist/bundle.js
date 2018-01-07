@@ -10943,7 +10943,25 @@ $(document).ready(function () {
   _merchantRequests.merchantRequests.getAllMerchants();
   _merchantRequests.merchantRequests.getMerchantInvoices(5);
   _merchantRequests.merchantRequests.getMerchantItems(10);
+  $('button.find').on('click', function () {
+    removeTableData(2);
+    removeTableData(3);
+    var find_id = parseInt($('input').val());
+    if (Number.isInteger(find_id) === true) {
+      var absolute = Math.abs(find_id);
+      _merchantRequests.merchantRequests.getMerchantInvoices(absolute);
+      _merchantRequests.merchantRequests.getMerchantItems(absolute);
+    } else {
+      alert('Please enter a number');
+    }
+    $('input').val('');
+  });
 });
+
+var removeTableData = function removeTableData(table) {
+  var tableNames = { 1: 'all', 2: 'rel1', 3: 'rel2' };
+  $('.' + tableNames[table] + '-data').remove();
+};
 
 /***/ }),
 /* 8 */
@@ -11031,7 +11049,7 @@ var MerchantResponses = function () {
     value: function appendAllMerchants(data) {
       var reorder = data.reverse();
       reorder.map(function (merchant) {
-        $('.merchant-header').after('<tr>\n            <td>' + merchant.id + '</td>\n            <td>' + merchant.name + '</td>\n          </tr>');
+        $('.all-header').after('<tr class="all-data">\n            <td>' + merchant.id + '</td>\n            <td>' + merchant.name + '</td>\n          </tr>');
       });
       $('.all-title').text('All Merchants');
     }
@@ -11039,7 +11057,7 @@ var MerchantResponses = function () {
     key: 'appendMerchantInvoices',
     value: function appendMerchantInvoices(data) {
       data.invoices.map(function (invoice) {
-        $('tr.rel1-header').after('<tr>\n            <td>' + invoice.id + '</td>\n            <td>' + invoice.status + '</td>\n            <td>' + invoice.merchant_id + '</td>\n            <td>' + invoice.customer_id + '</td>\n          </tr>');
+        $('tr.rel1-header').after('<tr class="rel1-data">\n            <td>' + invoice.id + '</td>\n            <td>' + invoice.status + '</td>\n            <td>' + invoice.merchant_id + '</td>\n            <td>' + invoice.customer_id + '</td>\n          </tr>');
       });
       $('.rel1-title').text('Merchant Invoices');
     }
@@ -11047,7 +11065,7 @@ var MerchantResponses = function () {
     key: 'appendMerchantItems',
     value: function appendMerchantItems(data) {
       data.items.map(function (item) {
-        $('.rel2-header').after('<tr>\n            <td>' + item.id + '</td>\n            <td>' + item.name + '</td>\n            <td>' + item.unit_price + '</td>\n            <td>' + item.description + '</td>\n          </tr>');
+        $('.rel2-header').after('<tr class="rel2-data">\n            <td>' + item.id + '</td>\n            <td>' + item.name + '</td>\n            <td>' + item.unit_price + '</td>\n            <td>' + item.description + '</td>\n          </tr>');
       });
       $('.rel2-title').text('Merchant items');
     }
