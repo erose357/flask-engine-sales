@@ -10354,7 +10354,7 @@ var MerchantRequests = function () {
       return $.get("https://flask-engine-api.herokuapp.com/api/v1/merchants").then(function (data) {
         _merchantResponses.merchantResponses.appendAllMerchants(data);
       }).catch(function (error) {
-        console.error(error);
+        merchantRequests.errorLog(error);
       });
     }
   }, {
@@ -10363,7 +10363,7 @@ var MerchantRequests = function () {
       return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/invoices').then(function (data) {
         _merchantResponses.merchantResponses.appendMerchantInvoices(data);
       }).catch(function (error) {
-        console.error(error);
+        merchantRequests.errorLog(error);
       });
     }
   }, {
@@ -10372,8 +10372,13 @@ var MerchantRequests = function () {
       return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/items').then(function (data) {
         _merchantResponses.merchantResponses.appendMerchantItems(data);
       }).catch(function (error) {
-        console.error(error);
+        merchantRequests.errorLog(error);
       });
+    }
+  }, {
+    key: 'errorLog',
+    value: function errorLog(error) {
+      console.error(error);
     }
   }]);
 
