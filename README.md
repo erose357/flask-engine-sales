@@ -11,7 +11,7 @@ webpack 3.8.1
 
 clone the repo and `cd` into the directory:  
 ```
-$ git@github.com:erose357/flask-engine-sales.git
+$ git clone git@github.com:erose357/flask-engine-sales.git
 $ cd flask-engine-sales
 ```
 install dependencies:  
