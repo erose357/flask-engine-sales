@@ -20,5 +20,5 @@ $ npm install
 ```
 run app:
 ```
-npm start
+$ npm start
 ```
