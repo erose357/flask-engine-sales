@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -10330,17 +10330,76 @@ return jQuery;
 "use strict";
 
 
-__webpack_require__(2);
-__webpack_require__(7);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.merchantRequests = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _merchantResponses = __webpack_require__(9);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+
+var MerchantRequests = function () {
+  function MerchantRequests() {
+    _classCallCheck(this, MerchantRequests);
+  }
+
+  _createClass(MerchantRequests, [{
+    key: 'getAllMerchants',
+    value: function getAllMerchants() {
+      return $.get("https://flask-engine-api.herokuapp.com/api/v1/merchants").then(function (data) {
+        _merchantResponses.merchantResponses.appendAllMerchants(data);
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }, {
+    key: 'getMerchantInvoices',
+    value: function getMerchantInvoices(merchant_id) {
+      return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/invoices').then(function (data) {
+        _merchantResponses.merchantResponses.appendMerchantInvoices(data);
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }, {
+    key: 'getMerchantItems',
+    value: function getMerchantItems(merchant_id) {
+      return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/items').then(function (data) {
+        _merchantResponses.merchantResponses.appendMerchantItems(data);
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }]);
+
+  return MerchantRequests;
+}();
+
+var merchantRequests = exports.merchantRequests = new MerchantRequests();
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+__webpack_require__(3);
+__webpack_require__(8);
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(3);
+var content = __webpack_require__(4);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -10348,7 +10407,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(5)(content, options);
+var update = __webpack_require__(6)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -10365,10 +10424,10 @@ if(false) {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(undefined);
+exports = module.exports = __webpack_require__(5)(undefined);
 // imports
 
 
@@ -10379,7 +10438,7 @@ exports.push([module.i, "* {\n  font-family: sans-serif;\n  margin: 0;\n  paddin
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 /*
@@ -10461,7 +10520,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -10517,7 +10576,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(6);
+var	fixUrls = __webpack_require__(7);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -10833,7 +10892,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 
@@ -10928,13 +10987,15 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _merchantRequests = __webpack_require__(8);
+var _merchantRequests = __webpack_require__(1);
+
+var _filter = __webpack_require__(10);
 
 var $ = __webpack_require__(0);
 
@@ -10943,84 +11004,8 @@ $(document).ready(function () {
   _merchantRequests.merchantRequests.getAllMerchants();
   _merchantRequests.merchantRequests.getMerchantInvoices(5);
   _merchantRequests.merchantRequests.getMerchantItems(10);
-  $('button.find').on('click', function () {
-    removeTableData(2);
-    removeTableData(3);
-    var find_id = parseInt($('input').val());
-    if (Number.isInteger(find_id) === true) {
-      var absolute = Math.abs(find_id);
-      _merchantRequests.merchantRequests.getMerchantInvoices(absolute);
-      _merchantRequests.merchantRequests.getMerchantItems(absolute);
-    } else {
-      alert('Please enter a number');
-    }
-    $('input').val('');
-  });
+  $('button.find').on('click', _filter.filter.appendFilterResults);
 });
-
-var removeTableData = function removeTableData(table) {
-  var tableNames = { 1: 'all', 2: 'rel1', 3: 'rel2' };
-  $('.' + tableNames[table] + '-data').remove();
-};
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.merchantRequests = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _merchantResponses = __webpack_require__(9);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var $ = __webpack_require__(0);
-
-var MerchantRequests = function () {
-  function MerchantRequests() {
-    _classCallCheck(this, MerchantRequests);
-  }
-
-  _createClass(MerchantRequests, [{
-    key: 'getAllMerchants',
-    value: function getAllMerchants() {
-      return $.get("https://flask-engine-api.herokuapp.com/api/v1/merchants").then(function (data) {
-        _merchantResponses.merchantResponses.appendAllMerchants(data);
-      }).catch(function (error) {
-        console.error(error);
-      });
-    }
-  }, {
-    key: 'getMerchantInvoices',
-    value: function getMerchantInvoices(merchant_id) {
-      return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/invoices').then(function (data) {
-        _merchantResponses.merchantResponses.appendMerchantInvoices(data);
-      }).catch(function (error) {
-        console.error(error);
-      });
-    }
-  }, {
-    key: 'getMerchantItems',
-    value: function getMerchantItems(merchant_id) {
-      return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/items').then(function (data) {
-        _merchantResponses.merchantResponses.appendMerchantItems(data);
-      }).catch(function (error) {
-        console.error(error);
-      });
-    }
-  }]);
-
-  return MerchantRequests;
-}();
-
-var merchantRequests = exports.merchantRequests = new MerchantRequests();
 
 /***/ }),
 /* 9 */
@@ -11075,6 +11060,79 @@ var MerchantResponses = function () {
 }();
 
 var merchantResponses = exports.merchantResponses = new MerchantResponses();
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.filter = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _merchantRequests = __webpack_require__(1);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+
+var Filter = function () {
+  function Filter() {
+    _classCallCheck(this, Filter);
+  }
+
+  _createClass(Filter, [{
+    key: 'appendFilterResults',
+    value: function appendFilterResults() {
+      var inputData = parseInt($('input').val());
+      filter.clearFind();
+      if (filter.checkInput(inputData) === true) {
+        var cleanInput = filter.cleanInput(inputData);
+        filter.removeTableData([2, 3]);
+        _merchantRequests.merchantRequests.getMerchantInvoices(cleanInput);
+        _merchantRequests.merchantRequests.getMerchantItems(cleanInput);
+      } else {
+        alert('Please enter a number');
+      }
+    }
+  }, {
+    key: 'removeTableData',
+    value: function removeTableData(tables) {
+      var tableNames = { 1: 'all', 2: 'rel1', 3: 'rel2' };
+      tables.forEach(function (table) {
+        $('.' + tableNames[table] + '-data').remove();
+      });
+    }
+  }, {
+    key: 'checkInput',
+    value: function checkInput(inputData) {
+      if (Number.isInteger(inputData) === true) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: 'cleanInput',
+    value: function cleanInput(inputData) {
+      return Math.abs(inputData);
+    }
+  }, {
+    key: 'clearFind',
+    value: function clearFind() {
+      $('input').val('');
+    }
+  }]);
+
+  return Filter;
+}();
+
+var filter = exports.filter = new Filter();
 
 /***/ })
 /******/ ]);
