@@ -10437,7 +10437,7 @@ exports = module.exports = __webpack_require__(5)(undefined);
 
 
 // module
-exports.push([module.i, "* {\n  font-family: sans-serif;\n  margin: 0;\n  padding: 10px;\n  box-sizing: border-box;\n}\n\n.wrapper {\n  display: grid;\n  grid-template-columns: 30% 30% 30%;\n  grid-gap: 25px;\n}\n\n.box {\n  border-radius: 5px;\n  padding: 20px;\n}\n\n.a {\n  grid-column: 1;\n  grid-row: 1 / 3;\n}\n\n.b {\n  grid-column: 2 / 4;\n  grid-row: 1;\n}\n\n.c {\n  grid-column: 2;\n  grid-row: 2;\n}\n\n.d {\n  grid-column: 3;\n  grid-row: 2;\n}\n\ndiv {\n  border: 1px solid black;\n}\n\ndiv.box.a.all {\n  overflow: scroll;\n  height: 600px;\n}\n\ndiv.box.b {\n  height: 200px;\n}\n\ndiv.box.c {\n  overflow: scroll;\n  height: 375px;\n}\n\ndiv.box.d {\n  overflow: scroll;\n  height: 375px;\n}\n\n.dropdown-button {\n  cursor: pointer;\n}\n\n.dropdown-menu {\n  position: relative;\n  display: inline-block;\n}\n\n.dropdown-content {\n  background-color: #f9f9f9;\n  display: none;\n  position: absolute;\n  z-index: 1;\n\n}\n\n.dropdown-content p {\n  cursor: pointer;\n  display: block;\n}\n\n.dropdown-content p:hover {\n  background-color: #d1d1d1;\n}\n\n.dropdown-menu:hover .dropdown-content {\n  display: block;\n}\n\n.dropdown-menu:hover .dropdown-button {\n  background-color: #d1d1d1;\n}\n\np.data-type {\n  display: inline-block;\n}\n", ""]);
+exports.push([module.i, "* {\n  font-family: sans-serif;\n  margin: 0;\n  padding: 10px;\n  box-sizing: border-box;\n}\n\n.wrapper {\n  display: grid;\n  grid-template-columns: 30% 30% 30%;\n  grid-gap: 25px;\n}\n\n.box {\n  border-radius: 5px;\n  padding: 20px;\n}\n\n.a {\n  grid-column: 1;\n  grid-row: 1 / 3;\n}\n\n.b {\n  grid-column: 2 / 4;\n  grid-row: 1;\n}\n\n.c {\n  grid-column: 2;\n  grid-row: 2;\n}\n\n.d {\n  grid-column: 3;\n  grid-row: 2;\n}\n\ndiv {\n  border: 1px solid black;\n}\n\ndiv.box.a.all {\n  overflow: scroll;\n  height: 600px;\n}\n\ndiv.box.b {\n  height: 200px;\n}\n\ndiv.box.c {\n  overflow: scroll;\n  height: 375px;\n}\n\ndiv.box.d {\n  overflow: scroll;\n  height: 375px;\n}\n\n.dropdown-button {\n  cursor: pointer;\n}\n\n.find:hover {\n  background-color: #d1d1d1;\n}\n\n.dropdown-menu {\n  border: none;\n  position: relative;\n  display: inline-block;\n}\n\n.dropdown-content {\n  background-color: #f9f9f9;\n  display: none;\n  position: absolute;\n  z-index: 1;\n\n}\n\n.dropdown-content p {\n  cursor: pointer;\n  display: block;\n}\n\n.dropdown-content p:hover {\n  background-color: #d1d1d1;\n}\n\n.dropdown-menu:hover .dropdown-content {\n  display: block;\n}\n\n.dropdown-menu:hover .dropdown-button {\n  background-color: #d1d1d1;\n}\n\np.data-type {\n  display: inline-block;\n}\n", ""]);
 
 // exports
 
@@ -11010,6 +11010,9 @@ $(document).ready(function () {
   _merchantRequests.merchantRequests.getMerchantInvoices(5);
   _merchantRequests.merchantRequests.getMerchantItems(10);
   $('button.find').on('click', _filter.filter.appendFilterResults);
+  $(document).on('click', 'div.dropdown-content p', function (event) {
+    $('p.data-type').text(event.currentTarget.innerHTML);
+  });
 });
 
 /***/ }),

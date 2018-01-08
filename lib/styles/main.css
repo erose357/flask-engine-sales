@@ -63,7 +63,12 @@ div.box.d {
   cursor: pointer;
 }
 
+.find:hover {
+  background-color: #d1d1d1;
+}
+
 .dropdown-menu {
+  border: none;
   position: relative;
   display: inline-block;
 }
