@@ -10383,6 +10383,13 @@ var MerchantRequests = function () {
     value: function errorLog(error) {
       console.error(error);
     }
+  }, {
+    key: 'loadAllMerchantTables',
+    value: function loadAllMerchantTables() {
+      merchantRequests.getAllMerchants();
+      merchantRequests.getMerchantInvoices(1);
+      merchantRequests.getMerchantItems(1);
+    }
   }]);
 
   return MerchantRequests;
@@ -10451,6 +10458,13 @@ var CustomerRequests = function () {
       }).catch(function (error) {
         customerRequests.errorLog(error);
       });
+    }
+  }, {
+    key: 'loadAllCustomerTables',
+    value: function loadAllCustomerTables() {
+      customerRequests.getAllCustomers();
+      customerRequests.getCustomerInvoices(1);
+      customerRequests.getCustomerTransactions(1);
     }
   }]);
 
@@ -11266,11 +11280,11 @@ var Filter = function () {
       var dataType = event.currentTarget.innerHTML;
       $('p.data-type').text(dataType);
       if (dataType === 'Customers') {
-        filter.removeTableData([1]);
-        _customerRequests.customerRequests.getAllCustomers();
+        filter.removeTableData([1, 2, 3]);
+        _customerRequests.customerRequests.loadAllCustomerTables();
       } else if (dataType === 'Merchants') {
-        filter.removeTableData([1]);
-        _merchantRequests.merchantRequests.getAllMerchants();
+        filter.removeTableData([1, 2, 3]);
+        _merchantRequests.merchantRequests.loadAllMerchantTables();
       }
     }
   }, {
