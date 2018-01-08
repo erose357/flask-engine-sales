@@ -38,6 +38,11 @@
 
 div {
   border: 1px solid black;
+  border-radius: 5px;
+}
+
+.title-bar {
+  text-align: center;
 }
 
 div.box.a.all {
@@ -64,6 +69,10 @@ div.box.d {
 }
 
 .find:hover {
+  background-color: #d1d1d1;
+}
+
+.random:hover {
   background-color: #d1d1d1;
 }
 
