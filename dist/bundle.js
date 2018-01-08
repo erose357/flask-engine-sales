@@ -10371,6 +10371,7 @@ var MerchantRequests = function () {
   }, {
     key: 'getMerchantItems',
     value: function getMerchantItems(merchant_id) {
+      _merchantResponses.merchantResponses.appendMerchantItemsTable();
       return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/items').then(function (data) {
         _merchantResponses.merchantResponses.appendMerchantItems(data);
       }).catch(function (error) {
@@ -10440,6 +10441,16 @@ var CustomerRequests = function () {
     key: 'errorLog',
     value: function errorLog(error) {
       console.log(error);
+    }
+  }, {
+    key: 'getCustomerTransactions',
+    value: function getCustomerTransactions(customer_id) {
+      _customerResponses.customerResponses.appendCustomerTransactionsTable();
+      return $.get(api + '/' + customer_id + '/transactions').then(function (data) {
+        _customerResponses.customerResponses.appendCustomerTransactions(data);
+      }).catch(function (error) {
+        customerRequests.errorLog(error);
+      });
     }
   }]);
 
@@ -11111,7 +11122,8 @@ var MerchantResponses = function () {
   }, {
     key: 'appendMerchantInvoices',
     value: function appendMerchantInvoices(data) {
-      data.invoices.map(function (invoice) {
+      var reorder = data.invoices.reverse();
+      reorder.map(function (invoice) {
         $('tr.rel1-header').after('<tr class="rel1-data">\n            <td>' + invoice.id + '</td>\n            <td>' + invoice.status + '</td>\n            <td>' + invoice.merchant_id + '</td>\n            <td>' + invoice.customer_id + '</td>\n          </tr>');
       });
       $('.rel1-title').text('Merchant Invoices');
@@ -11119,7 +11131,8 @@ var MerchantResponses = function () {
   }, {
     key: 'appendMerchantItems',
     value: function appendMerchantItems(data) {
-      data.items.map(function (item) {
+      var reorder = data.items.reverse();
+      reorder.map(function (item) {
         $('.rel2-header').after('<tr class="rel2-data">\n            <td>' + item.id + '</td>\n            <td>' + item.name + '</td>\n            <td>' + item.unit_price + '</td>\n            <td>' + item.description + '</td>\n          </tr>');
       });
       $('.rel2-title').text('Merchant items');
@@ -11135,6 +11148,12 @@ var MerchantResponses = function () {
     value: function appendMerchantInvoicesTable() {
       $('.rel1-title').text('Merchant Invoices');
       $('.rel1-title').after('<tr class="rel1-header rel1-data">\n          <th>Id</th>\n          <th>Status</th>\n          <th>Merchant Id</th>\n          <th>Customer Id</th>\n        </tr>');
+    }
+  }, {
+    key: 'appendMerchantItemsTable',
+    value: function appendMerchantItemsTable() {
+      $('.rel2-title').text('Merchants Items');
+      $('.rel2-title').after('<tr class="rel2-header rel2-data">\n          <th>Id</td>\n          <th>Name</td>\n          <th>Unit Price</td>\n          <th>Description</td>\n        </tr>');
     }
   }]);
 
@@ -11194,9 +11213,17 @@ var CustomerResponses = function () {
   }, {
     key: 'appendCustomerInvoices',
     value: function appendCustomerInvoices(data) {
-      debugger;
-      data.invoices.map(function (invoice) {
+      var reorder = data.invoices.reverse();
+      reorder.map(function (invoice) {
         $('.rel1-header').after('<tr class="rel1-data">\n            <td>' + invoice.id + '</td>\n            <td>' + invoice.status + '</td>\n            <td>' + invoice.merchant_id + '</td>\n            <td>' + invoice.customer_id + '</td>\n          </tr>');
+      });
+    }
+  }, {
+    key: 'appendCustomerTransactions',
+    value: function appendCustomerTransactions(data) {
+      var reorder = data.transactions.reverse();
+      reorder.map(function (transaction) {
+        $('.rel2-header').after('<tr class="rel2-data">\n            <td>' + transaction.id + '</td>\n            <td>' + transaction.invoice_id + '</td>\n            <td>' + transaction.result + '</td>\n          </tr>');
       });
     }
   }]);
@@ -11268,7 +11295,7 @@ var Filter = function () {
         _merchantRequests.merchantRequests.getMerchantItems(cleanInput);
       } else if (dataType === 'Customers') {
         _customerRequests.customerRequests.getCustomerInvoices(cleanInput);
-        //write methods to get customer relationship endpoints
+        _customerRequests.customerRequests.getCustomerTransactions(cleanInput);
       }
     }
   }, {
