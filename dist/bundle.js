@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -10337,7 +10337,7 @@ exports.merchantRequests = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _merchantResponses = __webpack_require__(9);
+var _merchantResponses = __webpack_require__(10);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10361,6 +10361,7 @@ var MerchantRequests = function () {
   }, {
     key: 'getMerchantInvoices',
     value: function getMerchantInvoices(merchant_id) {
+      _merchantResponses.merchantResponses.appendMerchantInvoicesTable();
       return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/invoices').then(function (data) {
         _merchantResponses.merchantResponses.appendMerchantInvoices(data);
       }).catch(function (error) {
@@ -10370,6 +10371,7 @@ var MerchantRequests = function () {
   }, {
     key: 'getMerchantItems',
     value: function getMerchantItems(merchant_id) {
+      _merchantResponses.merchantResponses.appendMerchantItemsTable();
       return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/items').then(function (data) {
         _merchantResponses.merchantResponses.appendMerchantItems(data);
       }).catch(function (error) {
@@ -10380,6 +10382,13 @@ var MerchantRequests = function () {
     key: 'errorLog',
     value: function errorLog(error) {
       console.error(error);
+    }
+  }, {
+    key: 'loadAllMerchantTables',
+    value: function loadAllMerchantTables() {
+      merchantRequests.getAllMerchants();
+      merchantRequests.getMerchantInvoices(1);
+      merchantRequests.getMerchantItems(1);
     }
   }]);
 
@@ -10395,17 +10404,93 @@ var merchantRequests = exports.merchantRequests = new MerchantRequests();
 "use strict";
 
 
-__webpack_require__(3);
-__webpack_require__(8);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.customerRequests = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _customerResponses = __webpack_require__(11);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+
+var api = 'https://flask-engine-api.herokuapp.com/api/v1/customers';
+
+var CustomerRequests = function () {
+  function CustomerRequests() {
+    _classCallCheck(this, CustomerRequests);
+  }
+
+  _createClass(CustomerRequests, [{
+    key: 'getAllCustomers',
+    value: function getAllCustomers() {
+      _customerResponses.customerResponses.appendAllCustomersTable();
+      return $.get(api).then(function (data) {
+        _customerResponses.customerResponses.appendAllCustomers(data);
+      }).catch(function (error) {
+        customerRequests.errorLog(error);
+      });
+    }
+  }, {
+    key: 'getCustomerInvoices',
+    value: function getCustomerInvoices(customer_id) {
+      _customerResponses.customerResponses.appendCustomerInvoicesTable();
+      return $.get(api + '/' + customer_id + '/invoices').then(function (data) {
+        _customerResponses.customerResponses.appendCustomerInvoices(data);
+      }).catch(function (error) {
+        customerRequests.errorLog(error);
+      });
+    }
+  }, {
+    key: 'errorLog',
+    value: function errorLog(error) {
+      console.log(error);
+    }
+  }, {
+    key: 'getCustomerTransactions',
+    value: function getCustomerTransactions(customer_id) {
+      _customerResponses.customerResponses.appendCustomerTransactionsTable();
+      return $.get(api + '/' + customer_id + '/transactions').then(function (data) {
+        _customerResponses.customerResponses.appendCustomerTransactions(data);
+      }).catch(function (error) {
+        customerRequests.errorLog(error);
+      });
+    }
+  }, {
+    key: 'loadAllCustomerTables',
+    value: function loadAllCustomerTables() {
+      customerRequests.getAllCustomers();
+      customerRequests.getCustomerInvoices(1);
+      customerRequests.getCustomerTransactions(1);
+    }
+  }]);
+
+  return CustomerRequests;
+}();
+
+var customerRequests = exports.customerRequests = new CustomerRequests();
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+__webpack_require__(4);
+__webpack_require__(9);
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(4);
+var content = __webpack_require__(5);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -10413,7 +10498,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(6)(content, options);
+var update = __webpack_require__(7)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -10430,10 +10515,10 @@ if(false) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(5)(undefined);
+exports = module.exports = __webpack_require__(6)(undefined);
 // imports
 
 
@@ -10444,7 +10529,7 @@ exports.push([module.i, "* {\n  font-family: sans-serif;\n  margin: 0;\n  paddin
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 /*
@@ -10526,7 +10611,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -10582,7 +10667,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(7);
+var	fixUrls = __webpack_require__(8);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -10898,7 +10983,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 
@@ -10993,7 +11078,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11001,53 +11086,25 @@ module.exports = function (css) {
 
 var _merchantRequests = __webpack_require__(1);
 
-var _filter = __webpack_require__(10);
+var _customerRequests = __webpack_require__(2);
+
+var _filter = __webpack_require__(12);
 
 var $ = __webpack_require__(0);
 
 
 $(document).ready(function () {
   _merchantRequests.merchantRequests.getAllMerchants();
-  _merchantRequests.merchantRequests.getMerchantInvoices(5);
-  _merchantRequests.merchantRequests.getMerchantItems(10);
+  _merchantRequests.merchantRequests.getMerchantInvoices(1);
+  _merchantRequests.merchantRequests.getMerchantItems(1);
   $('button.find').on('click', _filter.filter.appendFilterResults);
   $(document).on('click', 'div.dropdown-content p', function (event) {
-    var dataType = event.currentTarget.innerHTML;
-    $('p.data-type').text(dataType);
-    if (dataType === 'Customers') {
-      _filter.filter.removeTableData([1]);
-      getAllCustomers();
-    } else if (dataType === 'Merchants') {
-      _filter.filter.removeTableData([1]);
-      _merchantRequests.merchantRequests.getAllMerchants();
-    }
+    _filter.filter.determineTableToLoad(event);
   });
 });
 
-var getAllCustomers = function getAllCustomers() {
-  appendAllCustomersTable();
-  return $.get("https://flask-engine-api.herokuapp.com/api/v1/customers").then(function (data) {
-    appendAllCustomers(data);
-  }).catch(function (error) {
-    console.error(error);
-  });
-};
-
-//need to change tables for the different data types
-var appendAllCustomersTable = function appendAllCustomersTable() {
-  $('.all-title').text('All Customers');
-  $('.all-title').after('<tr class="all-header all-data">\n        <th>Id</th>\n        <th>First Name</th>\n        <th>Last Name</th>\n      </tr>');
-};
-
-var appendAllCustomers = function appendAllCustomers(data) {
-  var reorder = data.reverse();
-  reorder.map(function (customer) {
-    $('.all-header').after('<tr class="all-data">\n          <td>' + customer.id + '</td>\n          <td>' + customer.first_name + '</td>\n          <td>' + customer.last_name + '</td>\n        </tr>');
-  });
-};
-
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11079,7 +11136,8 @@ var MerchantResponses = function () {
   }, {
     key: 'appendMerchantInvoices',
     value: function appendMerchantInvoices(data) {
-      data.invoices.map(function (invoice) {
+      var reorder = data.invoices.reverse();
+      reorder.map(function (invoice) {
         $('tr.rel1-header').after('<tr class="rel1-data">\n            <td>' + invoice.id + '</td>\n            <td>' + invoice.status + '</td>\n            <td>' + invoice.merchant_id + '</td>\n            <td>' + invoice.customer_id + '</td>\n          </tr>');
       });
       $('.rel1-title').text('Merchant Invoices');
@@ -11087,7 +11145,8 @@ var MerchantResponses = function () {
   }, {
     key: 'appendMerchantItems',
     value: function appendMerchantItems(data) {
-      data.items.map(function (item) {
+      var reorder = data.items.reverse();
+      reorder.map(function (item) {
         $('.rel2-header').after('<tr class="rel2-data">\n            <td>' + item.id + '</td>\n            <td>' + item.name + '</td>\n            <td>' + item.unit_price + '</td>\n            <td>' + item.description + '</td>\n          </tr>');
       });
       $('.rel2-title').text('Merchant items');
@@ -11098,6 +11157,18 @@ var MerchantResponses = function () {
       $('.all-title').text('All Merchants');
       $('.all-title').after('<tr class="all-header all-data">\n            <th>Id</th>\n            <th>Name</th>\n          </tr>');
     }
+  }, {
+    key: 'appendMerchantInvoicesTable',
+    value: function appendMerchantInvoicesTable() {
+      $('.rel1-title').text('Merchant Invoices');
+      $('.rel1-title').after('<tr class="rel1-header rel1-data">\n          <th>Id</th>\n          <th>Status</th>\n          <th>Merchant Id</th>\n          <th>Customer Id</th>\n        </tr>');
+    }
+  }, {
+    key: 'appendMerchantItemsTable',
+    value: function appendMerchantItemsTable() {
+      $('.rel2-title').text('Merchants Items');
+      $('.rel2-title').after('<tr class="rel2-header rel2-data">\n          <th>Id</td>\n          <th>Name</td>\n          <th>Unit Price</td>\n          <th>Description</td>\n        </tr>');
+    }
   }]);
 
   return MerchantResponses;
@@ -11106,7 +11177,78 @@ var MerchantResponses = function () {
 var merchantResponses = exports.merchantResponses = new MerchantResponses();
 
 /***/ }),
-/* 10 */
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+
+var CustomerResponses = function () {
+  function CustomerResponses() {
+    _classCallCheck(this, CustomerResponses);
+  }
+
+  _createClass(CustomerResponses, [{
+    key: 'appendAllCustomersTable',
+    value: function appendAllCustomersTable() {
+      $('.all-title').text('All Customers');
+      $('.all-title').after('<tr class="all-header all-data">\n          <th>Id</th>\n          <th>First Name</th>\n          <th>Last Name</th>\n        </tr>');
+    }
+  }, {
+    key: 'appendCustomerInvoicesTable',
+    value: function appendCustomerInvoicesTable() {
+      $('.rel1-title').text('Customer Invoices');
+      $('.rel1-title').after('<tr class="rel1-header rel1-data">\n          <th>Id</th>\n          <th>Status</th>\n          <th>Merchant Id</th>\n          <th>Customer Id</th>\n        </tr>');
+    }
+  }, {
+    key: 'appendCustomerTransactionsTable',
+    value: function appendCustomerTransactionsTable() {
+      $('.rel2-title').text('Customer Transactions');
+      $('.rel2-title').after('<tr class="rel2-header rel2-data">\n          <th>Id</th>\n          <th>Invoice Id</th>\n          <th>Result</th>\n        </tr>');
+    }
+  }, {
+    key: 'appendAllCustomers',
+    value: function appendAllCustomers(data) {
+      var reorder = data.reverse();
+      reorder.map(function (customer) {
+        $('.all-header').after('<tr class="all-data">\n            <td>' + customer.id + '</td>\n            <td>' + customer.first_name + '</td>\n            <td>' + customer.last_name + '</td>\n          </tr>');
+      });
+    }
+  }, {
+    key: 'appendCustomerInvoices',
+    value: function appendCustomerInvoices(data) {
+      var reorder = data.invoices.reverse();
+      reorder.map(function (invoice) {
+        $('.rel1-header').after('<tr class="rel1-data">\n            <td>' + invoice.id + '</td>\n            <td>' + invoice.status + '</td>\n            <td>' + invoice.merchant_id + '</td>\n            <td>' + invoice.customer_id + '</td>\n          </tr>');
+      });
+    }
+  }, {
+    key: 'appendCustomerTransactions',
+    value: function appendCustomerTransactions(data) {
+      var reorder = data.transactions.reverse();
+      reorder.map(function (transaction) {
+        $('.rel2-header').after('<tr class="rel2-data">\n            <td>' + transaction.id + '</td>\n            <td>' + transaction.invoice_id + '</td>\n            <td>' + transaction.result + '</td>\n          </tr>');
+      });
+    }
+  }]);
+
+  return CustomerResponses;
+}();
+
+var customerResponses = exports.customerResponses = new CustomerResponses();
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11121,6 +11263,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _merchantRequests = __webpack_require__(1);
 
+var _customerRequests = __webpack_require__(2);
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var $ = __webpack_require__(0);
@@ -11131,17 +11275,41 @@ var Filter = function () {
   }
 
   _createClass(Filter, [{
+    key: 'determineTableToLoad',
+    value: function determineTableToLoad(event) {
+      var dataType = event.currentTarget.innerHTML;
+      $('p.data-type').text(dataType);
+      if (dataType === 'Customers') {
+        filter.removeTableData([1, 2, 3]);
+        _customerRequests.customerRequests.loadAllCustomerTables();
+      } else if (dataType === 'Merchants') {
+        filter.removeTableData([1, 2, 3]);
+        _merchantRequests.merchantRequests.loadAllMerchantTables();
+      }
+    }
+  }, {
     key: 'appendFilterResults',
     value: function appendFilterResults() {
+      var dataType = $('.data-type').text();
       var inputData = parseInt($('input').val());
       filter.clearFind();
       if (filter.checkInput(inputData) === true) {
         var cleanInput = filter.cleanInput(inputData);
         filter.removeTableData([2, 3]);
-        _merchantRequests.merchantRequests.getMerchantInvoices(cleanInput);
-        _merchantRequests.merchantRequests.getMerchantItems(cleanInput);
+        filter.determineAjaxCall(dataType, cleanInput);
       } else {
         alert('Please enter a number');
+      }
+    }
+  }, {
+    key: 'determineAjaxCall',
+    value: function determineAjaxCall(dataType, cleanInput) {
+      if (dataType === 'Merchants') {
+        _merchantRequests.merchantRequests.getMerchantInvoices(cleanInput);
+        _merchantRequests.merchantRequests.getMerchantItems(cleanInput);
+      } else if (dataType === 'Customers') {
+        _customerRequests.customerRequests.getCustomerInvoices(cleanInput);
+        _customerRequests.customerRequests.getCustomerTransactions(cleanInput);
       }
     }
   }, {
@@ -11150,7 +11318,7 @@ var Filter = function () {
       var tableNames = { 1: 'all', 2: 'rel1', 3: 'rel2' };
       tables.forEach(function (table) {
         $('.' + tableNames[table] + '-data').remove();
-        $('caption.all-title').text('');
+        $('caption.' + tableNames[table] + '-title').text('');
       });
     }
   }, {
