@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -10333,13 +10333,132 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.filter = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _merchantRequests = __webpack_require__(2);
+
+var _customerRequests = __webpack_require__(3);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+
+var Filter = function () {
+  function Filter() {
+    _classCallCheck(this, Filter);
+  }
+
+  _createClass(Filter, [{
+    key: 'determineTableToLoad',
+    value: function determineTableToLoad(event) {
+      var dataType = event.currentTarget.innerHTML;
+      $('p.data-type').text(dataType);
+      if (dataType === 'Customers') {
+        filter.removeTableData([1, 2, 3]);
+        _customerRequests.customerRequests.loadAllCustomerTables();
+      } else if (dataType === 'Merchants') {
+        filter.removeTableData([1, 2, 3]);
+        _merchantRequests.merchantRequests.loadAllMerchantTables();
+      }
+    }
+  }, {
+    key: 'appendFilterResults',
+    value: function appendFilterResults() {
+      var dataType = $('.data-type').text();
+      var inputData = parseInt($('input').val());
+      filter.clearFind();
+      if (filter.checkInput(inputData) === true) {
+        var cleanInput = filter.cleanInput(inputData);
+        filter.removeTableData([2, 3]);
+        filter.determineAjaxCall(dataType, cleanInput);
+      } else {
+        alert('Please enter a number');
+      }
+    }
+  }, {
+    key: 'determineAjaxCall',
+    value: function determineAjaxCall(dataType, cleanInput) {
+      if (dataType === 'Merchants') {
+        _merchantRequests.merchantRequests.getMerchantInvoices(cleanInput);
+        _merchantRequests.merchantRequests.getMerchantItems(cleanInput);
+      } else if (dataType === 'Customers') {
+        _customerRequests.customerRequests.getCustomerInvoices(cleanInput);
+        _customerRequests.customerRequests.getCustomerTransactions(cleanInput);
+      }
+    }
+  }, {
+    key: 'determineRandomEndpoint',
+    value: function determineRandomEndpoint() {
+      var dataType = $('p.data-type').text();
+      if (dataType === 'Customers') {
+        _customerRequests.customerRequests.getCustomerRandom();
+      } else if (dataType === 'Merchants') {
+        _merchantRequests.merchantRequests.getMerchantRandom();
+      }
+    }
+  }, {
+    key: 'removeTableData',
+    value: function removeTableData(tables) {
+      var tableNames = { 1: 'all', 2: 'rel1', 3: 'rel2' };
+      tables.forEach(function (table) {
+        $('.' + tableNames[table] + '-data').remove();
+        $('caption.' + tableNames[table] + '-title').text('');
+      });
+    }
+  }, {
+    key: 'scrollView',
+    value: function scrollView(element) {
+      //return this.each(() => {
+      $('div.box.a.all').animate({
+        scrollTop: $(element).position().top
+      }, 1000);
+      //})
+    }
+  }, {
+    key: 'checkInput',
+    value: function checkInput(inputData) {
+      if (Number.isInteger(inputData) === true) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: 'cleanInput',
+    value: function cleanInput(inputData) {
+      return Math.abs(inputData);
+    }
+  }, {
+    key: 'clearFind',
+    value: function clearFind() {
+      $('input').val('');
+    }
+  }]);
+
+  return Filter;
+}();
+
+var filter = exports.filter = new Filter();
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.merchantRequests = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _merchantResponses = __webpack_require__(10);
+var _merchantResponses = __webpack_require__(11);
 
-var _filter = __webpack_require__(12);
+var _filter = __webpack_require__(1);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10418,7 +10537,7 @@ var MerchantRequests = function () {
 var merchantRequests = exports.merchantRequests = new MerchantRequests();
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10431,9 +10550,9 @@ exports.customerRequests = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _customerResponses = __webpack_require__(11);
+var _customerResponses = __webpack_require__(12);
 
-var _filter = __webpack_require__(12);
+var _filter = __webpack_require__(1);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10500,9 +10619,11 @@ var CustomerRequests = function () {
   }, {
     key: 'loadRandomFindData',
     value: function loadRandomFindData(customer_id) {
+      _filter.filter.scrollView('.customer-' + customer_id);
       _filter.filter.removeTableData([2, 3]);
       customerRequests.getCustomerInvoices(customer_id);
       customerRequests.getCustomerTransactions(customer_id);
+      //$(`.customer-${customer_id}`).scroll
     }
   }]);
 
@@ -10512,23 +10633,23 @@ var CustomerRequests = function () {
 var customerRequests = exports.customerRequests = new CustomerRequests();
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(4);
-__webpack_require__(9);
+__webpack_require__(5);
+__webpack_require__(10);
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(5);
+var content = __webpack_require__(6);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -10536,7 +10657,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(7)(content, options);
+var update = __webpack_require__(8)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -10553,10 +10674,10 @@ if(false) {
 }
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(6)(undefined);
+exports = module.exports = __webpack_require__(7)(undefined);
 // imports
 
 
@@ -10567,7 +10688,7 @@ exports.push([module.i, "* {\n  font-family: sans-serif;\n  margin: 0;\n  paddin
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 /*
@@ -10649,7 +10770,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -10705,7 +10826,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(8);
+var	fixUrls = __webpack_require__(9);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -11021,7 +11142,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 
@@ -11116,17 +11237,17 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _merchantRequests = __webpack_require__(1);
+var _merchantRequests = __webpack_require__(2);
 
-var _customerRequests = __webpack_require__(2);
+var _customerRequests = __webpack_require__(3);
 
-var _filter = __webpack_require__(12);
+var _filter = __webpack_require__(1);
 
 var $ = __webpack_require__(0);
 
@@ -11143,7 +11264,7 @@ $(document).ready(function () {
 });
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11169,7 +11290,7 @@ var MerchantResponses = function () {
     value: function appendAllMerchants(data) {
       var reorder = data.reverse();
       reorder.map(function (merchant) {
-        $('.all-header').after('<tr class="all-data">\n            <td>' + merchant.id + '</td>\n            <td>' + merchant.name + '</td>\n          </tr>');
+        $('.all-header').after('<tr class="all-data merchant-' + merchant.id + '">\n            <td>' + merchant.id + '</td>\n            <td>' + merchant.name + '</td>\n          </tr>');
       });
     }
   }, {
@@ -11216,7 +11337,7 @@ var MerchantResponses = function () {
 var merchantResponses = exports.merchantResponses = new MerchantResponses();
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11260,7 +11381,7 @@ var CustomerResponses = function () {
     value: function appendAllCustomers(data) {
       var reorder = data.reverse();
       reorder.map(function (customer) {
-        $('.all-header').after('<tr class="all-data">\n            <td>' + customer.id + '</td>\n            <td>' + customer.first_name + '</td>\n            <td>' + customer.last_name + '</td>\n          </tr>');
+        $('.all-header').after('<tr class="all-data customer-' + customer.id + '">\n            <td>' + customer.id + '</td>\n            <td>' + customer.first_name + '</td>\n            <td>' + customer.last_name + '</td>\n          </tr>');
       });
     }
   }, {
@@ -11285,116 +11406,6 @@ var CustomerResponses = function () {
 }();
 
 var customerResponses = exports.customerResponses = new CustomerResponses();
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.filter = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _merchantRequests = __webpack_require__(1);
-
-var _customerRequests = __webpack_require__(2);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var $ = __webpack_require__(0);
-
-var Filter = function () {
-  function Filter() {
-    _classCallCheck(this, Filter);
-  }
-
-  _createClass(Filter, [{
-    key: 'determineTableToLoad',
-    value: function determineTableToLoad(event) {
-      var dataType = event.currentTarget.innerHTML;
-      $('p.data-type').text(dataType);
-      if (dataType === 'Customers') {
-        filter.removeTableData([1, 2, 3]);
-        _customerRequests.customerRequests.loadAllCustomerTables();
-      } else if (dataType === 'Merchants') {
-        filter.removeTableData([1, 2, 3]);
-        _merchantRequests.merchantRequests.loadAllMerchantTables();
-      }
-    }
-  }, {
-    key: 'appendFilterResults',
-    value: function appendFilterResults() {
-      var dataType = $('.data-type').text();
-      var inputData = parseInt($('input').val());
-      filter.clearFind();
-      if (filter.checkInput(inputData) === true) {
-        var cleanInput = filter.cleanInput(inputData);
-        filter.removeTableData([2, 3]);
-        filter.determineAjaxCall(dataType, cleanInput);
-      } else {
-        alert('Please enter a number');
-      }
-    }
-  }, {
-    key: 'determineAjaxCall',
-    value: function determineAjaxCall(dataType, cleanInput) {
-      if (dataType === 'Merchants') {
-        _merchantRequests.merchantRequests.getMerchantInvoices(cleanInput);
-        _merchantRequests.merchantRequests.getMerchantItems(cleanInput);
-      } else if (dataType === 'Customers') {
-        _customerRequests.customerRequests.getCustomerInvoices(cleanInput);
-        _customerRequests.customerRequests.getCustomerTransactions(cleanInput);
-      }
-    }
-  }, {
-    key: 'determineRandomEndpoint',
-    value: function determineRandomEndpoint() {
-      var dataType = $('p.data-type').text();
-      if (dataType === 'Customers') {
-        _customerRequests.customerRequests.getCustomerRandom();
-      } else if (dataType === 'Merchants') {
-        _merchantRequests.merchantRequests.getMerchantRandom();
-      }
-    }
-  }, {
-    key: 'removeTableData',
-    value: function removeTableData(tables) {
-      var tableNames = { 1: 'all', 2: 'rel1', 3: 'rel2' };
-      tables.forEach(function (table) {
-        $('.' + tableNames[table] + '-data').remove();
-        $('caption.' + tableNames[table] + '-title').text('');
-      });
-    }
-  }, {
-    key: 'checkInput',
-    value: function checkInput(inputData) {
-      if (Number.isInteger(inputData) === true) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }, {
-    key: 'cleanInput',
-    value: function cleanInput(inputData) {
-      return Math.abs(inputData);
-    }
-  }, {
-    key: 'clearFind',
-    value: function clearFind() {
-      $('input').val('');
-    }
-  }]);
-
-  return Filter;
-}();
-
-var filter = exports.filter = new Filter();
 
 /***/ })
 /******/ ]);
