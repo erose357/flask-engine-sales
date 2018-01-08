@@ -10339,6 +10339,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _merchantResponses = __webpack_require__(10);
 
+var _filter = __webpack_require__(12);
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var $ = __webpack_require__(0);
@@ -10390,6 +10392,13 @@ var MerchantRequests = function () {
       merchantRequests.getMerchantInvoices(1);
       merchantRequests.getMerchantItems(1);
     }
+  }, {
+    key: 'loadRandomFindData',
+    value: function loadRandomFindData(merchant_id) {
+      _filter.filter.removeTableData([2, 3]);
+      merchantRequests.getMerchantInvoices(merchant_id);
+      merchantRequests.getMerchantItems(merchant_id);
+    }
   }]);
 
   return MerchantRequests;
@@ -10412,6 +10421,8 @@ exports.customerRequests = undefined;
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _customerResponses = __webpack_require__(11);
+
+var _filter = __webpack_require__(12);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10465,6 +10476,13 @@ var CustomerRequests = function () {
       customerRequests.getAllCustomers();
       customerRequests.getCustomerInvoices(1);
       customerRequests.getCustomerTransactions(1);
+    }
+  }, {
+    key: 'loadRandomFindData',
+    value: function loadRandomFindData(customer_id) {
+      _filter.filter.removeTableData([2, 3]);
+      customerRequests.getCustomerInvoices(customer_id);
+      customerRequests.getCustomerTransactions(customer_id);
     }
   }]);
 
@@ -10523,7 +10541,7 @@ exports = module.exports = __webpack_require__(6)(undefined);
 
 
 // module
-exports.push([module.i, "* {\n  font-family: sans-serif;\n  margin: 0;\n  padding: 10px;\n  box-sizing: border-box;\n}\n\n.wrapper {\n  display: grid;\n  grid-template-columns: 30% 30% 30%;\n  grid-gap: 25px;\n}\n\n.box {\n  border-radius: 5px;\n  padding: 20px;\n}\n\n.a {\n  grid-column: 1;\n  grid-row: 1 / 3;\n}\n\n.b {\n  grid-column: 2 / 4;\n  grid-row: 1;\n}\n\n.c {\n  grid-column: 2;\n  grid-row: 2;\n}\n\n.d {\n  grid-column: 3;\n  grid-row: 2;\n}\n\ndiv {\n  border: 1px solid black;\n  border-radius: 5px;\n}\n\n.title-bar {\n  text-align: center;\n}\n\ndiv.box.a.all {\n  overflow: scroll;\n  height: 600px;\n}\n\ndiv.box.b {\n  height: 200px;\n}\n\ndiv.box.c {\n  overflow: scroll;\n  height: 375px;\n}\n\ndiv.box.d {\n  overflow: scroll;\n  height: 375px;\n}\n\n.dropdown-button {\n  cursor: pointer;\n}\n\n.find:hover {\n  background-color: #d1d1d1;\n}\n\n.dropdown-menu {\n  border: none;\n  position: relative;\n  display: inline-block;\n}\n\n.dropdown-content {\n  background-color: #f9f9f9;\n  display: none;\n  position: absolute;\n  z-index: 1;\n\n}\n\n.dropdown-content p {\n  cursor: pointer;\n  display: block;\n}\n\n.dropdown-content p:hover {\n  background-color: #d1d1d1;\n}\n\n.dropdown-menu:hover .dropdown-content {\n  display: block;\n}\n\n.dropdown-menu:hover .dropdown-button {\n  background-color: #d1d1d1;\n}\n\np.data-type {\n  display: inline-block;\n}\n", ""]);
+exports.push([module.i, "* {\n  font-family: sans-serif;\n  margin: 0;\n  padding: 10px;\n  box-sizing: border-box;\n}\n\n.wrapper {\n  display: grid;\n  grid-template-columns: 30% 30% 30%;\n  grid-gap: 25px;\n}\n\n.box {\n  border-radius: 5px;\n  padding: 20px;\n}\n\n.a {\n  grid-column: 1;\n  grid-row: 1 / 3;\n}\n\n.b {\n  grid-column: 2 / 4;\n  grid-row: 1;\n}\n\n.c {\n  grid-column: 2;\n  grid-row: 2;\n}\n\n.d {\n  grid-column: 3;\n  grid-row: 2;\n}\n\ndiv {\n  border: 1px solid black;\n  border-radius: 5px;\n}\n\n.title-bar {\n  text-align: center;\n}\n\ndiv.box.a.all {\n  overflow: scroll;\n  height: 600px;\n}\n\ndiv.box.b {\n  height: 200px;\n}\n\ndiv.box.c {\n  overflow: scroll;\n  height: 375px;\n}\n\ndiv.box.d {\n  overflow: scroll;\n  height: 375px;\n}\n\n.dropdown-button {\n  cursor: pointer;\n}\n\n.find:hover {\n  background-color: #d1d1d1;\n}\n\n.random:hover {\n  background-color: #d1d1d1;\n}\n\n.dropdown-menu {\n  border: none;\n  position: relative;\n  display: inline-block;\n}\n\n.dropdown-content {\n  background-color: #f9f9f9;\n  display: none;\n  position: absolute;\n  z-index: 1;\n\n}\n\n.dropdown-content p {\n  cursor: pointer;\n  display: block;\n}\n\n.dropdown-content p:hover {\n  background-color: #d1d1d1;\n}\n\n.dropdown-menu:hover .dropdown-content {\n  display: block;\n}\n\n.dropdown-menu:hover .dropdown-button {\n  background-color: #d1d1d1;\n}\n\np.data-type {\n  display: inline-block;\n}\n", ""]);
 
 // exports
 
@@ -11101,7 +11119,35 @@ $(document).ready(function () {
   $(document).on('click', 'div.dropdown-content p', function (event) {
     _filter.filter.determineTableToLoad(event);
   });
+  $('button.random').on('click', function () {
+    var dataType = $('p.data-type').text();
+    determineRandomEndpoint(dataType);
+  });
 });
+
+var determineRandomEndpoint = function determineRandomEndpoint(dataType) {
+  if (dataType === 'Customers') {
+    getCustomerRandom();
+  } else if (dataType === 'Merchants') {
+    getMerchantRandom();
+  }
+};
+
+var getCustomerRandom = function getCustomerRandom() {
+  return $.get('https://flask-engine-api.herokuapp.com/api/v1/customers/random').then(function (data) {
+    _customerRequests.customerRequests.loadRandomFindData(data.id);
+  }).catch(function (error) {
+    console.error(error);
+  });
+};
+
+var getMerchantRandom = function getMerchantRandom() {
+  return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/random').then(function (data) {
+    _merchantRequests.merchantRequests.loadRandomFindData(data.id);
+  }).catch(function (error) {
+    console.error(error);
+  });
+};
 
 /***/ }),
 /* 10 */

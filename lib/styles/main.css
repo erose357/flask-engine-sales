@@ -72,6 +72,10 @@ div.box.d {
   background-color: #d1d1d1;
 }
 
+.random:hover {
+  background-color: #d1d1d1;
+}
+
 .dropdown-menu {
   border: none;
   position: relative;
