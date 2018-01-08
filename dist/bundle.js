@@ -11150,7 +11150,7 @@ var Filter = function () {
       var tableNames = { 1: 'all', 2: 'rel1', 3: 'rel2' };
       tables.forEach(function (table) {
         $('.' + tableNames[table] + '-data').remove();
-        $('caption.all-title').text('');
+        $('caption.' + tableNames[table] + '-title').text('');
       });
     }
   }, {
