@@ -10345,6 +10345,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var $ = __webpack_require__(0);
 
+var api = 'https://flask-engine-api.herokuapp.com/api/v1/merchants';
+
 var MerchantRequests = function () {
   function MerchantRequests() {
     _classCallCheck(this, MerchantRequests);
@@ -10354,7 +10356,7 @@ var MerchantRequests = function () {
     key: 'getAllMerchants',
     value: function getAllMerchants() {
       _merchantResponses.merchantResponses.appendAllMerchantsTable();
-      return $.get("https://flask-engine-api.herokuapp.com/api/v1/merchants").then(function (data) {
+      return $.get(api).then(function (data) {
         _merchantResponses.merchantResponses.appendAllMerchants(data);
       }).catch(function (error) {
         merchantRequests.errorLog(error);
@@ -10364,7 +10366,7 @@ var MerchantRequests = function () {
     key: 'getMerchantInvoices',
     value: function getMerchantInvoices(merchant_id) {
       _merchantResponses.merchantResponses.appendMerchantInvoicesTable();
-      return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/invoices').then(function (data) {
+      return $.get(api + '/' + merchant_id + '/invoices').then(function (data) {
         _merchantResponses.merchantResponses.appendMerchantInvoices(data);
       }).catch(function (error) {
         merchantRequests.errorLog(error);
@@ -10374,8 +10376,17 @@ var MerchantRequests = function () {
     key: 'getMerchantItems',
     value: function getMerchantItems(merchant_id) {
       _merchantResponses.merchantResponses.appendMerchantItemsTable();
-      return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/items').then(function (data) {
+      return $.get(api + '/' + merchant_id + '/items').then(function (data) {
         _merchantResponses.merchantResponses.appendMerchantItems(data);
+      }).catch(function (error) {
+        merchantRequests.errorLog(error);
+      });
+    }
+  }, {
+    key: 'getMerchantRandom',
+    value: function getMerchantRandom() {
+      return $.get(api + '/random').then(function (data) {
+        merchantRequests.loadRandomFindData(data.id);
       }).catch(function (error) {
         merchantRequests.errorLog(error);
       });
@@ -10466,6 +10477,15 @@ var CustomerRequests = function () {
       _customerResponses.customerResponses.appendCustomerTransactionsTable();
       return $.get(api + '/' + customer_id + '/transactions').then(function (data) {
         _customerResponses.customerResponses.appendCustomerTransactions(data);
+      }).catch(function (error) {
+        customerRequests.errorLog(error);
+      });
+    }
+  }, {
+    key: 'getCustomerRandom',
+    value: function getCustomerRandom() {
+      return $.get(api + '/random').then(function (data) {
+        customerRequests.loadRandomFindData(data.id);
       }).catch(function (error) {
         customerRequests.errorLog(error);
       });
@@ -11116,38 +11136,11 @@ $(document).ready(function () {
   _merchantRequests.merchantRequests.getMerchantInvoices(1);
   _merchantRequests.merchantRequests.getMerchantItems(1);
   $('button.find').on('click', _filter.filter.appendFilterResults);
+  $('button.random').on('click', _filter.filter.determineRandomEndpoint);
   $(document).on('click', 'div.dropdown-content p', function (event) {
     _filter.filter.determineTableToLoad(event);
   });
-  $('button.random').on('click', function () {
-    var dataType = $('p.data-type').text();
-    determineRandomEndpoint(dataType);
-  });
 });
-
-var determineRandomEndpoint = function determineRandomEndpoint(dataType) {
-  if (dataType === 'Customers') {
-    getCustomerRandom();
-  } else if (dataType === 'Merchants') {
-    getMerchantRandom();
-  }
-};
-
-var getCustomerRandom = function getCustomerRandom() {
-  return $.get('https://flask-engine-api.herokuapp.com/api/v1/customers/random').then(function (data) {
-    _customerRequests.customerRequests.loadRandomFindData(data.id);
-  }).catch(function (error) {
-    console.error(error);
-  });
-};
-
-var getMerchantRandom = function getMerchantRandom() {
-  return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/random').then(function (data) {
-    _merchantRequests.merchantRequests.loadRandomFindData(data.id);
-  }).catch(function (error) {
-    console.error(error);
-  });
-};
 
 /***/ }),
 /* 10 */
@@ -11356,6 +11349,16 @@ var Filter = function () {
       } else if (dataType === 'Customers') {
         _customerRequests.customerRequests.getCustomerInvoices(cleanInput);
         _customerRequests.customerRequests.getCustomerTransactions(cleanInput);
+      }
+    }
+  }, {
+    key: 'determineRandomEndpoint',
+    value: function determineRandomEndpoint() {
+      var dataType = $('p.data-type').text();
+      if (dataType === 'Customers') {
+        _customerRequests.customerRequests.getCustomerRandom();
+      } else if (dataType === 'Merchants') {
+        _merchantRequests.merchantRequests.getMerchantRandom();
       }
     }
   }, {
