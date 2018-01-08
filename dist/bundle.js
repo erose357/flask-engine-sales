@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -10337,7 +10337,7 @@ exports.merchantRequests = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _merchantResponses = __webpack_require__(9);
+var _merchantResponses = __webpack_require__(10);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10361,6 +10361,7 @@ var MerchantRequests = function () {
   }, {
     key: 'getMerchantInvoices',
     value: function getMerchantInvoices(merchant_id) {
+      _merchantResponses.merchantResponses.appendMerchantInvoicesTable();
       return $.get('https://flask-engine-api.herokuapp.com/api/v1/merchants/' + merchant_id + '/invoices').then(function (data) {
         _merchantResponses.merchantResponses.appendMerchantInvoices(data);
       }).catch(function (error) {
@@ -10395,17 +10396,76 @@ var merchantRequests = exports.merchantRequests = new MerchantRequests();
 "use strict";
 
 
-__webpack_require__(3);
-__webpack_require__(8);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.customerRequests = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _customerResponses = __webpack_require__(11);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+
+var api = 'https://flask-engine-api.herokuapp.com/api/v1/customers';
+
+var CustomerRequests = function () {
+  function CustomerRequests() {
+    _classCallCheck(this, CustomerRequests);
+  }
+
+  _createClass(CustomerRequests, [{
+    key: 'getAllCustomers',
+    value: function getAllCustomers() {
+      _customerResponses.customerResponses.appendAllCustomersTable();
+      return $.get(api).then(function (data) {
+        _customerResponses.customerResponses.appendAllCustomers(data);
+      }).catch(function (error) {
+        customerRequests.errorLog(error);
+      });
+    }
+  }, {
+    key: 'getCustomerInvoices',
+    value: function getCustomerInvoices(customer_id) {
+      _customerResponses.customerResponses.appendCustomerInvoicesTable();
+      return $.get(api + '/' + customer_id + '/invoices').then(function (data) {
+        _customerResponses.customerResponses.appendCustomerInvoices(data);
+      }).catch(function (error) {
+        customerRequests.errorLog(error);
+      });
+    }
+  }, {
+    key: 'errorLog',
+    value: function errorLog(error) {
+      console.log(error);
+    }
+  }]);
+
+  return CustomerRequests;
+}();
+
+var customerRequests = exports.customerRequests = new CustomerRequests();
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+__webpack_require__(4);
+__webpack_require__(9);
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(4);
+var content = __webpack_require__(5);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -10413,7 +10473,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(6)(content, options);
+var update = __webpack_require__(7)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -10430,10 +10490,10 @@ if(false) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(5)(undefined);
+exports = module.exports = __webpack_require__(6)(undefined);
 // imports
 
 
@@ -10444,7 +10504,7 @@ exports.push([module.i, "* {\n  font-family: sans-serif;\n  margin: 0;\n  paddin
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 /*
@@ -10526,7 +10586,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -10582,7 +10642,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(7);
+var	fixUrls = __webpack_require__(8);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -10898,7 +10958,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 
@@ -10993,7 +11053,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11001,9 +11061,9 @@ module.exports = function (css) {
 
 var _merchantRequests = __webpack_require__(1);
 
-var _customerRequests = __webpack_require__(11);
+var _customerRequests = __webpack_require__(2);
 
-var _filter = __webpack_require__(10);
+var _filter = __webpack_require__(12);
 
 var $ = __webpack_require__(0);
 
@@ -11019,7 +11079,7 @@ $(document).ready(function () {
 });
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11070,6 +11130,12 @@ var MerchantResponses = function () {
       $('.all-title').text('All Merchants');
       $('.all-title').after('<tr class="all-header all-data">\n            <th>Id</th>\n            <th>Name</th>\n          </tr>');
     }
+  }, {
+    key: 'appendMerchantInvoicesTable',
+    value: function appendMerchantInvoicesTable() {
+      $('.rel1-title').text('Merchant Invoices');
+      $('.rel1-title').after('<tr class="rel1-header rel1-data">\n          <th>Id</th>\n          <th>Status</th>\n          <th>Merchant Id</th>\n          <th>Customer Id</th>\n        </tr>');
+    }
   }]);
 
   return MerchantResponses;
@@ -11078,7 +11144,70 @@ var MerchantResponses = function () {
 var merchantResponses = exports.merchantResponses = new MerchantResponses();
 
 /***/ }),
-/* 10 */
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+
+var CustomerResponses = function () {
+  function CustomerResponses() {
+    _classCallCheck(this, CustomerResponses);
+  }
+
+  _createClass(CustomerResponses, [{
+    key: 'appendAllCustomersTable',
+    value: function appendAllCustomersTable() {
+      $('.all-title').text('All Customers');
+      $('.all-title').after('<tr class="all-header all-data">\n          <th>Id</th>\n          <th>First Name</th>\n          <th>Last Name</th>\n        </tr>');
+    }
+  }, {
+    key: 'appendCustomerInvoicesTable',
+    value: function appendCustomerInvoicesTable() {
+      $('.rel1-title').text('Customer Invoices');
+      $('.rel1-title').after('<tr class="rel1-header rel1-data">\n          <th>Id</th>\n          <th>Status</th>\n          <th>Merchant Id</th>\n          <th>Customer Id</th>\n        </tr>');
+    }
+  }, {
+    key: 'appendCustomerTransactionsTable',
+    value: function appendCustomerTransactionsTable() {
+      $('.rel2-title').text('Customer Transactions');
+      $('.rel2-title').after('<tr class="rel2-header rel2-data">\n          <th>Id</th>\n          <th>Invoice Id</th>\n          <th>Result</th>\n        </tr>');
+    }
+  }, {
+    key: 'appendAllCustomers',
+    value: function appendAllCustomers(data) {
+      var reorder = data.reverse();
+      reorder.map(function (customer) {
+        $('.all-header').after('<tr class="all-data">\n            <td>' + customer.id + '</td>\n            <td>' + customer.first_name + '</td>\n            <td>' + customer.last_name + '</td>\n          </tr>');
+      });
+    }
+  }, {
+    key: 'appendCustomerInvoices',
+    value: function appendCustomerInvoices(data) {
+      debugger;
+      data.invoices.map(function (invoice) {
+        $('.rel1-header').after('<tr class="rel1-data">\n            <td>' + invoice.id + '</td>\n            <td>' + invoice.status + '</td>\n            <td>' + invoice.merchant_id + '</td>\n            <td>' + invoice.customer_id + '</td>\n          </tr>');
+      });
+    }
+  }]);
+
+  return CustomerResponses;
+}();
+
+var customerResponses = exports.customerResponses = new CustomerResponses();
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11093,7 +11222,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _merchantRequests = __webpack_require__(1);
 
-var _customerRequests = __webpack_require__(11);
+var _customerRequests = __webpack_require__(2);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -11120,15 +11249,26 @@ var Filter = function () {
   }, {
     key: 'appendFilterResults',
     value: function appendFilterResults() {
+      var dataType = $('.data-type').text();
       var inputData = parseInt($('input').val());
       filter.clearFind();
       if (filter.checkInput(inputData) === true) {
         var cleanInput = filter.cleanInput(inputData);
         filter.removeTableData([2, 3]);
-        _merchantRequests.merchantRequests.getMerchantInvoices(cleanInput);
-        _merchantRequests.merchantRequests.getMerchantItems(cleanInput);
+        filter.determineAjaxCall(dataType, cleanInput);
       } else {
         alert('Please enter a number');
+      }
+    }
+  }, {
+    key: 'determineAjaxCall',
+    value: function determineAjaxCall(dataType, cleanInput) {
+      if (dataType === 'Merchants') {
+        _merchantRequests.merchantRequests.getMerchantInvoices(cleanInput);
+        _merchantRequests.merchantRequests.getMerchantItems(cleanInput);
+      } else if (dataType === 'Customers') {
+        _customerRequests.customerRequests.getCustomerInvoices(cleanInput);
+        //write methods to get customer relationship endpoints
       }
     }
   }, {
@@ -11165,96 +11305,6 @@ var Filter = function () {
 }();
 
 var filter = exports.filter = new Filter();
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.customerRequests = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _customerResponses = __webpack_require__(12);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var $ = __webpack_require__(0);
-
-var CustomerRequests = function () {
-  function CustomerRequests() {
-    _classCallCheck(this, CustomerRequests);
-  }
-
-  _createClass(CustomerRequests, [{
-    key: 'getAllCustomers',
-    value: function getAllCustomers() {
-      _customerResponses.customerResponses.appendAllCustomersTable();
-      return $.get("https://flask-engine-api.herokuapp.com/api/v1/customers").then(function (data) {
-        _customerResponses.customerResponses.appendAllCustomers(data);
-      }).catch(function (error) {
-        customerRequests.errorLog(error);
-      });
-    }
-  }, {
-    key: 'errorLog',
-    value: function errorLog(error) {
-      console.log(error);
-    }
-  }]);
-
-  return CustomerRequests;
-}();
-
-var customerRequests = exports.customerRequests = new CustomerRequests();
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var $ = __webpack_require__(0);
-
-var CustomerResponses = function () {
-  function CustomerResponses() {
-    _classCallCheck(this, CustomerResponses);
-  }
-
-  _createClass(CustomerResponses, [{
-    key: 'appendAllCustomersTable',
-    value: function appendAllCustomersTable() {
-      $('.all-title').text('All Customers');
-      $('.all-title').after('<tr class="all-header all-data">\n          <th>Id</th>\n          <th>First Name</th>\n          <th>Last Name</th>\n        </tr>');
-    }
-  }, {
-    key: 'appendAllCustomers',
-    value: function appendAllCustomers(data) {
-      var reorder = data.reverse();
-      reorder.map(function (customer) {
-        $('.all-header').after('<tr class="all-data">\n            <td>' + customer.id + '</td>\n            <td>' + customer.first_name + '</td>\n            <td>' + customer.last_name + '</td>\n          </tr>');
-      });
-    }
-  }]);
-
-  return CustomerResponses;
-}();
-
-var customerResponses = exports.customerResponses = new CustomerResponses();
 
 /***/ })
 /******/ ]);
