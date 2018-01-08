@@ -38,6 +38,11 @@
 
 div {
   border: 1px solid black;
+  border-radius: 5px;
+}
+
+.title-bar {
+  text-align: center;
 }
 
 div.box.a.all {
