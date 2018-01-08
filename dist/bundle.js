@@ -10351,6 +10351,7 @@ var MerchantRequests = function () {
   _createClass(MerchantRequests, [{
     key: 'getAllMerchants',
     value: function getAllMerchants() {
+      _merchantResponses.merchantResponses.appendAllMerchantsTable();
       return $.get("https://flask-engine-api.herokuapp.com/api/v1/merchants").then(function (data) {
         _merchantResponses.merchantResponses.appendAllMerchants(data);
       }).catch(function (error) {
@@ -11011,9 +11012,39 @@ $(document).ready(function () {
   _merchantRequests.merchantRequests.getMerchantItems(10);
   $('button.find').on('click', _filter.filter.appendFilterResults);
   $(document).on('click', 'div.dropdown-content p', function (event) {
-    $('p.data-type').text(event.currentTarget.innerHTML);
+    var dataType = event.currentTarget.innerHTML;
+    $('p.data-type').text(dataType);
+    if (dataType === 'Customers') {
+      _filter.filter.removeTableData([1]);
+      getAllCustomers();
+    } else if (dataType === 'Merchants') {
+      _filter.filter.removeTableData([1]);
+      _merchantRequests.merchantRequests.getAllMerchants();
+    }
   });
 });
+
+var getAllCustomers = function getAllCustomers() {
+  appendAllCustomersTable();
+  return $.get("https://flask-engine-api.herokuapp.com/api/v1/customers").then(function (data) {
+    appendAllCustomers(data);
+  }).catch(function (error) {
+    console.error(error);
+  });
+};
+
+//need to change tables for the different data types
+var appendAllCustomersTable = function appendAllCustomersTable() {
+  $('.all-title').text('All Customers');
+  $('.all-title').after('<tr class="all-header all-data">\n        <th>Id</th>\n        <th>First Name</th>\n        <th>Last Name</th>\n      </tr>');
+};
+
+var appendAllCustomers = function appendAllCustomers(data) {
+  var reorder = data.reverse();
+  reorder.map(function (customer) {
+    $('.all-header').after('<tr class="all-data">\n          <td>' + customer.id + '</td>\n          <td>' + customer.first_name + '</td>\n          <td>' + customer.last_name + '</td>\n        </tr>');
+  });
+};
 
 /***/ }),
 /* 9 */
@@ -11044,7 +11075,6 @@ var MerchantResponses = function () {
       reorder.map(function (merchant) {
         $('.all-header').after('<tr class="all-data">\n            <td>' + merchant.id + '</td>\n            <td>' + merchant.name + '</td>\n          </tr>');
       });
-      $('.all-title').text('All Merchants');
     }
   }, {
     key: 'appendMerchantInvoices',
@@ -11061,6 +11091,12 @@ var MerchantResponses = function () {
         $('.rel2-header').after('<tr class="rel2-data">\n            <td>' + item.id + '</td>\n            <td>' + item.name + '</td>\n            <td>' + item.unit_price + '</td>\n            <td>' + item.description + '</td>\n          </tr>');
       });
       $('.rel2-title').text('Merchant items');
+    }
+  }, {
+    key: 'appendAllMerchantsTable',
+    value: function appendAllMerchantsTable() {
+      $('.all-title').text('All Merchants');
+      $('.all-title').after('<tr class="all-header all-data">\n            <th>Id</th>\n            <th>Name</th>\n          </tr>');
     }
   }]);
 
@@ -11114,6 +11150,7 @@ var Filter = function () {
       var tableNames = { 1: 'all', 2: 'rel1', 3: 'rel2' };
       tables.forEach(function (table) {
         $('.' + tableNames[table] + '-data').remove();
+        $('caption.all-title').text('');
       });
     }
   }, {
