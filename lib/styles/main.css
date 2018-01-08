@@ -58,3 +58,46 @@ div.box.d {
   overflow: scroll;
   height: 375px;
 }
+
+.dropdown-button {
+  cursor: pointer;
+}
+
+.find:hover {
+  background-color: #d1d1d1;
+}
+
+.dropdown-menu {
+  border: none;
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  background-color: #f9f9f9;
+  display: none;
+  position: absolute;
+  z-index: 1;
+
+}
+
+.dropdown-content p {
+  cursor: pointer;
+  display: block;
+}
+
+.dropdown-content p:hover {
+  background-color: #d1d1d1;
+}
+
+.dropdown-menu:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-menu:hover .dropdown-button {
+  background-color: #d1d1d1;
+}
+
+p.data-type {
+  display: inline-block;
+}
